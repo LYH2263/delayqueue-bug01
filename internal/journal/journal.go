@@ -43,8 +43,7 @@ func (j *Journal) AppendEnqueue(id, queue string, payload []byte) error {
 }
 
 func (j *Journal) AppendSchedule(id, queue string, payload []byte, runAt time.Time) error {
-	_ = runAt
-	return j.append(record{Op: "schedule", ID: id, Queue: queue, Payload: payload, RunAt: 0})
+	return j.append(record{Op: "schedule", ID: id, Queue: queue, Payload: payload, RunAt: runAt.UnixNano()})
 }
 
 func (j *Journal) AppendAck(id string) error { return j.append(record{Op: "ack", ID: id}) }

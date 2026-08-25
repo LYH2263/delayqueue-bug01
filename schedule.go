@@ -34,7 +34,7 @@ func (b *Broker) ScheduleAt(ctx context.Context, id, queue string, payload []byt
 	b.order = append(b.order, id)
 	b.sched.Push(id, runAt)
 	if b.journal != nil {
-		if err := b.journal.AppendSchedule(id, queue, t.Payload, b.opts.Clock.Now()); err != nil {
+		if err := b.journal.AppendSchedule(id, queue, t.Payload, t.RunAt); err != nil {
 			delete(b.tasks, id)
 			b.order = b.order[:len(b.order)-1]
 			b.sched.Remove(id)
